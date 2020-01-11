@@ -32,10 +32,14 @@ func main() {
 	// }
 	// byteValue, _ := ioutil.ReadAll(jsonFile)
 	var data Data
+	fmt.Println("Get list from API.....")
+
 	r, err := http.Get("http://cit.kmutnb.ac.th/examination/scan.php")
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println("Done")
+
 	json.NewDecoder(r.Body).Decode(&data)
 
 	// json.Unmarshal(byteValue, &data)
@@ -56,7 +60,7 @@ func main() {
 	// 	fmt.Println("Type: " + data[i].Type)
 
 	// }
-	fmt.Println("Successfully Opened old.json")
+	// fmt.Println("Successfully Opened old.json")
 	// defer the closing of our jsonFile so that we can parse it later on
 	// defer jsonFile.Close()
 }
