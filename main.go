@@ -3,9 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"net/http"
 	"net/url"
-	"os"
 	"strings"
 )
 
@@ -26,14 +25,20 @@ var result []*ResultData
 
 func main() {
 	// Open our jsonFile
-	jsonFile, err := os.Open("old.json")
+	// jsonFile, err := os.Open("old.json")
 	// if we os.Open returns an error then handle it
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// byteValue, _ := ioutil.ReadAll(jsonFile)
+	var data Data
+	r, err := http.Get("http://cit.kmutnb.ac.th/examination/scan.php")
 	if err != nil {
 		fmt.Println(err)
 	}
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var data Data
-	json.Unmarshal(byteValue, &data)
+	json.NewDecoder(r.Body).Decode(&data)
+
+	// json.Unmarshal(byteValue, &data)
 	fmt.Print("Enter your class code: ")
 	// reader := bufio.NewReader(os.Stdin)
 	// code, err := reader.ReadString('\n')
@@ -53,7 +58,7 @@ func main() {
 	// }
 	fmt.Println("Successfully Opened old.json")
 	// defer the closing of our jsonFile so that we can parse it later on
-	defer jsonFile.Close()
+	// defer jsonFile.Close()
 }
 func showResult(result []*ResultData) {
 	for i := range result {
